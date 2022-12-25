@@ -8,7 +8,6 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt,
 )
-from marshmallow import ValidationError
 from schemas.user import UserSchema
 from models.user import UserModel
 from blocklist import BLOCKLIST
@@ -26,10 +25,7 @@ user_schema = UserSchema()
 class UserRegister(Resource):
     @classmethod
     def post(cls):
-        try:
-            user = user_schema.load(request.get_json())
-        except ValidationError as e:
-            return e.messages, 404
+        user = user_schema.load(request.get_json())
 
         if UserModel.find_by_username(user.username):
             return {"message": USER_ALREADY_EXISTS}, 400
@@ -64,10 +60,7 @@ class User(Resource):
 class UserLogin(Resource):
     @classmethod
     def post(cls):
-        try:
-            user = user_schema.load(request.get_json())
-        except ValidationError as e:
-            return e.messages, 404
+        user = user_schema.load(request.get_json())
 
         user = UserModel.find_by_username(user.username)
 

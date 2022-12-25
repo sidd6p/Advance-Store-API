@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from marshmallow import ValidationError
 
 from db import db
 from ma import ma
@@ -24,6 +25,9 @@ def create_tables():
 
 jwt = JWTManager(app)
 
+@app.errorhandler(ValidationError)
+def handle_marshmallow_validation(error):
+    return jsonify(error), 400
 
 # This method will check if a token is blocklisted, and will be called automatically when blocklist is enabled
 @jwt.token_in_blocklist_loader

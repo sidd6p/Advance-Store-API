@@ -2,7 +2,6 @@ from flask_restful import Resource
 from flask import request
 from flask_jwt_extended import jwt_required
 from models.item import ItemModel
-from marshmallow import ValidationError
 
 from schemas.item import ItemSchema
 
@@ -29,10 +28,7 @@ class Item(Resource):
             return {"message": NAME_ALREADY_EXISTS.format(name)}, 400
         item_json = request.get_json()
         item_json["name"] = name
-        try:
-            item = item_schema.load(item_json)
-        except ValidationError as e:
-            return e.messages, 404
+        item = item_schema.load(item_json)
         try:
             item.save_to_db()
         except:
