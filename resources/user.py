@@ -16,7 +16,7 @@ CREATED_SUCCESSFULLY = "User created successfully."
 USER_NOT_FOUND = "User not found."
 USER_DELETED = "User deleted."
 INVALID_CREDENTIALS = "Invalid credentials!"
-USER_LOGGED_OUT = "User <id={user_id}> successfully logged out."
+USER_LOGGED_OUT = "User <id={}> successfully logged out."
 
 _user_parser = reqparse.RequestParser()
 _user_parser.add_argument(
