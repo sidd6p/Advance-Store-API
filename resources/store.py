@@ -9,7 +9,7 @@ STORE_NOT_FOUND = "Store not found."
 STORE_DELETED = "Store deleted."
 
 
-store_schema = StoreSchema
+store_schema = StoreSchema()
 store_list_schema = StoreSchema(many=True)
 class Store(Resource):
     @classmethod
@@ -46,4 +46,4 @@ class Store(Resource):
 class StoreList(Resource):
     @classmethod
     def get(cls):
-        return {"stores":  store_list_schema(StoreModel.find_all())}, 200
+        return {"stores":  store_list_schema.dump(StoreModel.find_all())}, 200
