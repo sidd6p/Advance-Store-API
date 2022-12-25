@@ -1,9 +1,4 @@
-from typing import Dict, Union
-
 from db import db
-
-UserJSON = Dict[str, Union[int, str]]
-
 
 class UserModel(db.Model):
     __tablename__ = "users"
