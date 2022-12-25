@@ -6,6 +6,7 @@ from schemas.item import ItemSchema
 
 class StoreSchema(ma.SQLAlchemyAutoSchema):
     items = ma.Nested(ItemSchema, many=True)
+
     class Meta:
         model = StoreModel
         load_instance = True

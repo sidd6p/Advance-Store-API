@@ -22,6 +22,8 @@ USER_LOGGED_OUT = "User <id={}> successfully logged out."
 
 
 user_schema = UserSchema()
+
+
 class UserRegister(Resource):
     @classmethod
     def post(cls):

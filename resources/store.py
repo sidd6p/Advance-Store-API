@@ -11,6 +11,8 @@ STORE_DELETED = "Store deleted."
 
 store_schema = StoreSchema()
 store_list_schema = StoreSchema(many=True)
+
+
 class Store(Resource):
     @classmethod
     def get(cls, name: str):
@@ -25,7 +27,7 @@ class Store(Resource):
             return {"message": NAME_ALREADY_EXISTS.format(name)}, 400
 
         store = StoreModel(name=name)
-        
+
         try:
             store.save_to_db()
         except:
@@ -46,4 +48,4 @@ class Store(Resource):
 class StoreList(Resource):
     @classmethod
     def get(cls):
-        return {"stores":  store_list_schema.dump(StoreModel.find_all())}, 200
+        return {"stores": store_list_schema.dump(StoreModel.find_all())}, 200

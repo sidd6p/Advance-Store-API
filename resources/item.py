@@ -13,6 +13,8 @@ ITEM_DELETED = "Item deleted."
 
 item_schema = ItemSchema()
 item_list_schema = ItemSchema(many=True)
+
+
 class Item(Resource):
     @classmethod
     def get(cls, name: str):

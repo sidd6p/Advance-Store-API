@@ -25,9 +25,11 @@ def create_tables():
 
 jwt = JWTManager(app)
 
+
 @app.errorhandler(ValidationError)
 def handle_marshmallow_validation(error):
     return jsonify(error), 400
+
 
 # This method will check if a token is blocklisted, and will be called automatically when blocklist is enabled
 @jwt.token_in_blocklist_loader
