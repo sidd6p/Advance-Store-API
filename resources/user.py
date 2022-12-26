@@ -1,3 +1,4 @@
+import traceback
 from flask_restful import Resource
 from flask import request, make_response, render_template
 from hmac import compare_digest
@@ -14,6 +15,7 @@ from blocklist import BLOCKLIST
 
 BLANK_ERROR = "'{}' cannot be blank."
 USER_ALREADY_EXISTS = "A user with that username already exists."
+EMAIL_ALREADY_EXISTS = "A user with that email already exists."
 CREATED_SUCCESSFULLY = "User created successfully."
 USER_NOT_FOUND = "User not found."
 USER_DELETED = "User deleted."
@@ -21,6 +23,7 @@ INVALID_CREDENTIALS = "Invalid credentials!"
 USER_LOGGED_OUT = "User <id={}> successfully logged out."
 NOT_ACTIVATED_ERROR = "{} is not activated."
 USER_CONFIRMED = "User activated"
+FAILED_TO_CREATE = "Unable to create the user, try again later"
 
 user_schema = UserSchema()
 
@@ -33,9 +36,16 @@ class UserRegister(Resource):
         if UserModel.find_by_username(user.username):
             return {"message": USER_ALREADY_EXISTS}, 400
 
-        user.save_to_db()
+        if UserModel.find_by_email(user.email):
+            return {"message": EMAIL_ALREADY_EXISTS}, 400
 
-        return {"message": CREATED_SUCCESSFULLY}, 201
+        try:
+            user.save_to_db()
+            user.send_confirmation_email()
+            return {"message": CREATED_SUCCESSFULLY}, 201
+        except:
+            traceback.print_exc()
+            return {"message": FAILED_TO_CREATE}, 500
 
 
 class User(Resource):
@@ -63,7 +73,7 @@ class User(Resource):
 class UserLogin(Resource):
     @classmethod
     def post(cls):
-        user = user_schema.load(request.get_json())
+        user = user_schema.load(request.get_json(), partial=("email",))
 
         user = UserModel.find_by_username(user.username)
 
