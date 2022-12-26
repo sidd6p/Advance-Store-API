@@ -1,7 +1,8 @@
 import os
 
 from flask import request, url_for
-from requests import Response, post
+from requests import Response
+from library.mailgun import MailGun
 
 from db import db
 
@@ -36,18 +37,11 @@ class UserModel(db.Model):
         # url_root[:-1] = http://127.0.0.1:5000
         # url_for("userconfirm", user_id=self.id)
         link = request.url_root[:-1] + url_for("userconfirm", user_id=self.id)
-        res = post(
-            url=f"https://api.mailgun.net/v3/{MAILGUM_DOMAIN}/messages",
-            auth=("api", f"{MAILGUM_API}"),
-            data={
-                "from": f"{FROM_TITLE} <mailgun@{MAILGUM_DOMAIN}>",
-                "to": [self.email],
-                "subject": "Registration Confirmation",
-                "text": f"Please click link to confirm user {link}",
-            },
-        )
-        print(res)
-        return res
+        subject = "Registration Confirmation"
+        emails = [self.email]
+        text = f"Please click link to confirm user {link}"
+        html = None
+        return MailGun.send_email(emails, subject, text, html)
 
     def save_to_db(self) -> None:
         db.session.add(self)
