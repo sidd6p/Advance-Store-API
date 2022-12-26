@@ -12,6 +12,7 @@ from flask_jwt_extended import (
 from schemas.user import UserSchema
 from models.user import UserModel
 from blocklist import BLOCKLIST
+from library.mailgun import MailGunException
 
 BLANK_ERROR = "'{}' cannot be blank."
 USER_ALREADY_EXISTS = "A user with that username already exists."
@@ -43,6 +44,9 @@ class UserRegister(Resource):
             user.save_to_db()
             user.send_confirmation_email()
             return {"message": CREATED_SUCCESSFULLY}, 201
+        except MailGunException as error:
+            user.delete_from_db()
+            return {"message": str(error)}, 500
         except:
             traceback.print_exc()
             return {"message": FAILED_TO_CREATE}, 500
