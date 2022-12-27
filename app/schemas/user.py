@@ -9,8 +9,8 @@
 #     username = fields.Str(required=True)
 #     password = fields.Str(required=True, load_only=True)
 
-from ma import ma
-from models import UserModel
+from app.ma import ma
+from app.models import UserModel
 
 
 class UserSchema(ma.SQLAlchemyAutoSchema):

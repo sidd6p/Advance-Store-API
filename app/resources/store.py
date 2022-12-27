@@ -1,7 +1,7 @@
 from flask_restful import Resource
-from flask import request
-from models import StoreModel
-from schemas.store import StoreSchema
+
+from app.models import StoreModel
+from app.schemas.store import StoreSchema
 
 NAME_ALREADY_EXISTS = "A store with name '{}' already exists."
 ERROR_INSERTING = "An error occurred while inserting the store."

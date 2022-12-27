@@ -1,5 +1,5 @@
-from models import ItemModel, StoreModel
-from ma import ma
+from app.models import ItemModel, StoreModel
+from app.ma import ma
 
 
 class ItemSchema(ma.SQLAlchemyAutoSchema):

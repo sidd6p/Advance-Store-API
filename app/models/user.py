@@ -2,9 +2,9 @@ import os
 
 from flask import request, url_for
 from requests import Response
-from library.mailgun import MailGun
 
-from db import db
+from app.library.mailgun import MailGun
+from app.db import db
 
 MAILGUM_DOMAIN = os.getenv("MAILGUM_DOMAIN")
 MAILGUM_API = os.getenv("MAILGUM_API")

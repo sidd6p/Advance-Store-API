@@ -1,24 +1,22 @@
 from typing import List
 
-from db import db
+from app.db import db
 
 
-class ItemModel(db.Model):
-    __tablename__ = "items"
+class StoreModel(db.Model):
+    __tablename__ = "stores"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False, unique=True)
-    price = db.Column(db.Float(precision=2), nullable=False)
 
-    store_id = db.Column(db.Integer, db.ForeignKey("stores.id"))
-    store = db.relationship("StoreModel", back_populates="items")
+    items = db.relationship("ItemModel", lazy="dynamic")
 
     @classmethod
-    def find_by_name(cls, name: str) -> "ItemModel":
+    def find_by_name(cls, name: str) -> "StoreModel":
         return cls.query.filter_by(name=name).first()
 
     @classmethod
-    def find_all(cls) -> List["ItemModel"]:
+    def find_all(cls) -> List["StoreModel"]:
         return cls.query.all()
 
     def save_to_db(self) -> None:

@@ -1,7 +1,7 @@
-from ma import ma
-from models import StoreModel
-from models import ItemModel
-from schemas.item import ItemSchema
+from app.ma import ma
+from app.models import StoreModel
+from app.models import ItemModel
+from app.schemas.item import ItemSchema
 
 
 class StoreSchema(ma.SQLAlchemyAutoSchema):

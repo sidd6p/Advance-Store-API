@@ -1,9 +1,9 @@
 from flask_restful import Resource
 from flask import request
 from flask_jwt_extended import jwt_required
-from models.item import ItemModel
 
-from schemas.item import ItemSchema
+from app.models.item import ItemModel
+from app.schemas.item import ItemSchema
 
 NAME_ALREADY_EXISTS = "An item with name '{}' already exists."
 ERROR_INSERTING = "An error occurred while inserting the item."

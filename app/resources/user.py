@@ -1,4 +1,5 @@
 import traceback
+
 from flask_restful import Resource
 from flask import request, make_response, render_template
 from hmac import compare_digest
@@ -9,10 +10,11 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt,
 )
-from schemas.user import UserSchema
-from models.user import UserModel
-from blocklist import BLOCKLIST
-from library.mailgun import MailGunException
+
+from app.schemas.user import UserSchema
+from app.models.user import UserModel
+from app.blocklist import BLOCKLIST
+from app.library.mailgun import MailGunException
 
 BLANK_ERROR = "'{}' cannot be blank."
 USER_ALREADY_EXISTS = "A user with that username already exists."
