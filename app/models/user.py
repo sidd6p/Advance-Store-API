@@ -5,6 +5,7 @@ from requests import Response
 
 from app.library.mailgun import MailGun
 from app.db import db
+from app.models import ConfirmationModel
 
 MAILGUM_DOMAIN = os.getenv("MAILGUM_DOMAIN")
 MAILGUM_API = os.getenv("MAILGUM_API")
@@ -18,7 +19,10 @@ class UserModel(db.Model):
     username = db.Column(db.String(80), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
-    activated = db.Column(db.Boolean, default=False)
+
+    confirmation = db.relationship(
+        "ConfirmationModel", lazy="dynamic", cascade="all, delete-orphan"
+    )
 
     @classmethod
     def find_by_username(cls, username: str) -> "UserModel":
@@ -32,11 +36,16 @@ class UserModel(db.Model):
     def find_by_id(cls, _id: int) -> "UserModel":
         return cls.query.filter_by(id=_id).first()
 
+    def most_recent_confirmation(self) -> "ConfirmationModel":
+        return self.confirmation.order_by(db.desc(ConfirmationModel.expire_at)).first()
+
     def send_confirmation_email(self) -> Response:
         # url_root = http://127.0.0.1:5000/
         # url_root[:-1] = http://127.0.0.1:5000
         # url_for("userconfirm", user_id=self.id)
-        link = request.url_root[:-1] + url_for("userconfirm", user_id=self.id)
+        link = request.url_root[:-1] + url_for(
+            "confirmation", confrimation_id=self.most_recent_confirmation
+        )
         subject = "Registration Confirmation"
         emails = [self.email]
         text = f"Please click link to confirm user {link}"
