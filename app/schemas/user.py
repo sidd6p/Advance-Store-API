@@ -12,7 +12,7 @@
 from marshmallow import pre_dump
 
 from app.ma import ma
-from app.models import UserModel
+from app.models.user import UserModel
 
 
 class UserSchema(ma.SQLAlchemyAutoSchema):

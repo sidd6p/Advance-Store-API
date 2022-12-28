@@ -4,8 +4,9 @@ import time
 from flask_restful import Resource
 from flask import make_response, render_template
 
-from app.models import ConfirmationModel, UserModel
-from app.schemas import ConfirmationSchema
+from app.models.confirmation import ConfirmationModel
+from app.models.user import UserModel
+from app.schemas.confirmation import ConfirmationSchema
 from app.library.mailgun import MailGunException
 from app.library.strings import get_text
 

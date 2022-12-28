@@ -15,7 +15,7 @@ from app.schemas.user import UserSchema
 from app.models.user import UserModel
 from app.blocklist import BLOCKLIST
 from app.library.mailgun import MailGunException
-from app.models import ConfirmationModel
+from app.models.confirmation import ConfirmationModel
 from app.library.strings import get_text
 
 

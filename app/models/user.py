@@ -6,7 +6,7 @@ from requests import Response
 
 from app.library.mailgun import MailGun
 from app.db import db
-from app.models import ConfirmationModel
+from app.models.confirmation import ConfirmationModel
 
 MAILGUM_DOMAIN = os.getenv("MAILGUM_DOMAIN")
 MAILGUM_API = os.getenv("MAILGUM_API")

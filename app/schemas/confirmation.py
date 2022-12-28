@@ -1,4 +1,4 @@
-from app.models import ConfirmationModel
+from app.models.confirmation import ConfirmationModel
 from app.ma import ma
 
 

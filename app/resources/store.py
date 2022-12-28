@@ -1,6 +1,6 @@
 from flask_restful import Resource
 
-from app.models import StoreModel
+from app.models.store import StoreModel
 from app.schemas.store import StoreSchema
 from app.library.strings import get_text
 

@@ -1,4 +1,5 @@
-from app.models import ItemModel, StoreModel
+from app.models.item import ItemModel
+from app.models.store import StoreModel
 from app.ma import ma
 
 

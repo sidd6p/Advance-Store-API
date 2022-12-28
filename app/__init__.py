@@ -19,7 +19,6 @@ from app.resources.user import (
 from app.resources.item import Item, ItemList
 from app.resources.store import Store, StoreList
 from app.resources.confirmation import Confirmation, ConfirmationByUser
-from app.models import *
 
 load_dotenv()
 

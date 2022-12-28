@@ -1,6 +1,6 @@
 from app.ma import ma
-from app.models import StoreModel
-from app.models import ItemModel
+from app.models.store import StoreModel
+from app.models.item import ItemModel
 from app.schemas.item import ItemSchema
 
 
