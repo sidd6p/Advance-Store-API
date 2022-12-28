@@ -15,7 +15,6 @@ from app.resources.user import (
     User,
     TokenRefresh,
     UserLogout,
-    UserConfirm,
 )
 from app.resources.item import Item, ItemList
 from app.resources.store import Store, StoreList
@@ -60,6 +59,5 @@ def create_app():
     api.add_resource(UserLogin, "/login")
     api.add_resource(TokenRefresh, "/refresh")
     api.add_resource(UserLogout, "/logout")
-    api.add_resource(UserConfirm, "/user_confirm/<int:user_id>")
 
     return app
