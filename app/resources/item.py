@@ -6,13 +6,6 @@ from app.models.item import ItemModel
 from app.schemas.item import ItemSchema
 from app.library.strings import get_text
 
-
-NAME_ALREADY_EXISTS = get_text("NAME_ALREADY_EXISTS")
-ERROR_INSERTING = get_text("ERROR_INSERTING")
-ITEM_NOT_FOUND = get_text("ITEM_NOT_FOUND")
-ITEM_DELETED = get_text("ITEM_DELETED")
-
-
 item_schema = ItemSchema()
 item_list_schema = ItemSchema(many=True)
 
@@ -23,20 +16,20 @@ class Item(Resource):
         item = ItemModel.find_by_name(name)
         if item:
             return item_schema.dump(item), 200
-        return {"message": ITEM_NOT_FOUND}, 404
+        return {"message": get_text("ITEM_NOT_FOUND")}, 404
 
     @classmethod
     @jwt_required(fresh=True)
     def post(cls, name: str):
         if ItemModel.find_by_name(name):
-            return {"message": NAME_ALREADY_EXISTS.format(name)}, 400
+            return {"message": get_text("NAME_ALREADY_EXISTS").format(name)}, 400
         item_json = request.get_json()
         item_json["name"] = name
         item = item_schema.load(item_json)
         try:
             item.save_to_db()
         except:
-            return {"message": ERROR_INSERTING}, 500
+            return {"message": get_text("ERROR_INSERTING")}, 500
 
         return item_schema.dump(item), 201
 
@@ -46,8 +39,8 @@ class Item(Resource):
         item = ItemModel.find_by_name(name)
         if item:
             item.delete_from_db()
-            return {"message": ITEM_DELETED}, 200
-        return {"message": ITEM_DELETED}, 404
+            return {"message": get_text("ITEM_DELETED")}, 200
+        return {"message": get_text("ITEM_DELETED")}, 404
 
     @classmethod
     def put(cls, name: str):

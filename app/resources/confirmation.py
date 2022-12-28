@@ -10,7 +10,6 @@ from app.library.mailgun import MailGunException
 from app.library.strings import get_text
 
 confirmation_Schema = ConfirmationSchema(many=True)
-USER_NOT_FOUND = get_text("USER_NOT_FOUND")
 
 
 class Confirmation(Resource):
@@ -48,7 +47,7 @@ class ConfirmationByUser(Resource):
         """
         user = UserModel.find_by_id(user_id)
         if not user:
-            return {"message": USER_NOT_FOUND}, 404
+            return {"message": get_text("USER_NOT_FOUND")}, 404
         return (
             {
                 "current_time": int(time.time()),
@@ -62,7 +61,7 @@ class ConfirmationByUser(Resource):
     def post(cls, user_id: int):
         user = UserModel.find_by_id(user_id)
         if not user:
-            return {"message": USER_NOT_FOUND}, 404
+            return {"message": get_text("USER_NOT_FOUND")}, 404
 
         try:
             confirmation = user.most_recent_confirmation()
