@@ -1,0 +1,25 @@
+{
+    "FAILED_API_LOAD" : "Failed to load MailGun API Key",
+    "FAILED_DOMAIN_LOAD" : "Failed to load MailGun Domain",
+
+    "ITEM_NOT_FOUND" : "Item not found.",
+    "ITEM_DELETED" : "Item deleted.",
+
+    "NAME_ALREADY_EXISTS" : "A store with name '{}' already exists.",
+    "ERROR_INSERTING" : "An error occurred while inserting the store.",
+    "STORE_NOT_FOUND" : "Store not found.",
+    "STORE_DELETED" : "Store deleted.",
+
+    "USER_ALREADY_EXISTS" : "A user with that username already exists.",
+    "EMAIL_ALREADY_EXISTS" : "A user with that email already exists.",
+    "CREATED_SUCCESSFULLY" : "User created successfully.",
+    "USER_NOT_FOUND" : "User not found.",
+    "USER_DELETED" : "User deleted.",
+    "USER_LOGGED_OUT" : "User <id={}> successfully logged out.",
+    "NOT_ACTIVATED_ERROR" : "{} is not activated.",
+    "USER_CONFIRMED" : "User activated",
+    "FAILED_TO_CREATE" : "Unable to create the user, try again later",
+
+    "INVALID_CREDENTIALS" : "Invalid credentials!",
+    "BLANK_ERROR" : "'{}' cannot be blank."    
+}

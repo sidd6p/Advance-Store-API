@@ -4,11 +4,13 @@ from flask_jwt_extended import jwt_required
 
 from app.models.item import ItemModel
 from app.schemas.item import ItemSchema
+from app.library.strings import get_text
 
-NAME_ALREADY_EXISTS = "An item with name '{}' already exists."
-ERROR_INSERTING = "An error occurred while inserting the item."
-ITEM_NOT_FOUND = "Item not found."
-ITEM_DELETED = "Item deleted."
+
+NAME_ALREADY_EXISTS = get_text("NAME_ALREADY_EXISTS")
+ERROR_INSERTING = get_text("ERROR_INSERTING")
+ITEM_NOT_FOUND = get_text("ITEM_NOT_FOUND")
+ITEM_DELETED = get_text("ITEM_DELETED")
 
 
 item_schema = ItemSchema()

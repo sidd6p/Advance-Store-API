@@ -2,10 +2,10 @@ import os
 
 from typing import List
 from requests import Response, post
+from app.library.strings import get_text
 
-
-FAILED_API_LOAD = "Failed to load MailGun API Key"
-FAILED_DOMAIN_LOAD = "Failed to load MailGun Domain"
+FAILED_API_LOAD = get_text("FAILED_API_LOAD")
+FAILED_DOMAIN_LOAD = get_text("FAILED_DOMAIN_LOAD")
 
 
 class MailGunException(Exception):

@@ -6,10 +6,11 @@ from flask import make_response, render_template
 
 from app.models import ConfirmationModel, UserModel
 from app.schemas import ConfirmationSchema
-from app.resources.user import USER_NOT_FOUND
 from app.library.mailgun import MailGunException
+from app.library.strings import get_text
 
 confirmation_Schema = ConfirmationSchema(many=True)
+USER_NOT_FOUND = get_text("USER_NOT_FOUND")
 
 
 class Confirmation(Resource):

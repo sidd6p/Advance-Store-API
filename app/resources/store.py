@@ -2,11 +2,12 @@ from flask_restful import Resource
 
 from app.models import StoreModel
 from app.schemas.store import StoreSchema
+from app.library.strings import get_text
 
-NAME_ALREADY_EXISTS = "A store with name '{}' already exists."
-ERROR_INSERTING = "An error occurred while inserting the store."
-STORE_NOT_FOUND = "Store not found."
-STORE_DELETED = "Store deleted."
+NAME_ALREADY_EXISTS = get_text("NAME_ALREADY_EXISTS")
+ERROR_INSERTING = get_text("ERROR_INSERTING")
+STORE_NOT_FOUND = get_text("STORE_NOT_FOUND")
+STORE_DELETED = get_text("STORE_DELETED")
 
 
 store_schema = StoreSchema()

@@ -16,18 +16,20 @@ from app.models.user import UserModel
 from app.blocklist import BLOCKLIST
 from app.library.mailgun import MailGunException
 from app.models import ConfirmationModel
+from app.library.strings import get_text
 
-BLANK_ERROR = "'{}' cannot be blank."
-USER_ALREADY_EXISTS = "A user with that username already exists."
-EMAIL_ALREADY_EXISTS = "A user with that email already exists."
-CREATED_SUCCESSFULLY = "User created successfully."
-USER_NOT_FOUND = "User not found."
-USER_DELETED = "User deleted."
-INVALID_CREDENTIALS = "Invalid credentials!"
-USER_LOGGED_OUT = "User <id={}> successfully logged out."
-NOT_ACTIVATED_ERROR = "{} is not activated."
-USER_CONFIRMED = "User activated"
-FAILED_TO_CREATE = "Unable to create the user, try again later"
+
+BLANK_ERROR = get_text("BLANK_ERROR")
+USER_ALREADY_EXISTS = get_text("USER_ALREADY_EXISTS")
+EMAIL_ALREADY_EXISTS = get_text("EMAIL_ALREADY_EXISTS")
+CREATED_SUCCESSFULLY = get_text("CREATED_SUCCESSFULLY")
+USER_NOT_FOUND = get_text("USER_NOT_FOUND")
+USER_DELETED = get_text("USER_DELETED")
+INVALID_CREDENTIALS = get_text("INVALID_CREDENTIALS")
+USER_LOGGED_OUT = get_text("USER_LOGGED_OUT")
+NOT_ACTIVATED_ERROR = get_text("NOT_ACTIVATED_ERROR")
+USER_CONFIRMED = get_text("USER_CONFIRMED")
+FAILED_TO_CREATE = get_text("FAILED_TO_CREATE")
 
 user_schema = UserSchema()
 
