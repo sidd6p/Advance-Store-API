@@ -18,6 +18,7 @@ from app.resources.user import (
 )
 from app.resources.item import Item, ItemList
 from app.resources.store import Store, StoreList
+from app.resources.confirmation import Confirmation, ConfirmationByUser
 from app.models import *
 
 load_dotenv()
@@ -59,5 +60,7 @@ def create_app():
     api.add_resource(UserLogin, "/login")
     api.add_resource(TokenRefresh, "/refresh")
     api.add_resource(UserLogout, "/logout")
+    api.add_resource(Confirmation, "/user_confirmation/<string:confirmation_id>")
+    api.add_resource(ConfirmationByUser, "/confirmation.user/<int:user_id>")
 
     return app
