@@ -21,7 +21,10 @@ class UserModel(db.Model):
     email = db.Column(db.String(80), unique=True, nullable=False)
 
     confirmation = db.relationship(
-        "ConfirmationModel", lazy="dynamic", cascade="all, delete-orphan"
+        "ConfirmationModel",
+        back_populates="user",
+        lazy="dynamic",
+        cascade="all, delete-orphan",
     )
 
     @classmethod

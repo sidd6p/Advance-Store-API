@@ -15,7 +15,7 @@ class ConfirmationModel(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    user = db.relationship("UserModel")
+    user = db.relationship("UserModel", back_populates="confirmation")
 
     def __init__(self, user_id: int, **kwargs):
         super().__init__(**kwargs)
