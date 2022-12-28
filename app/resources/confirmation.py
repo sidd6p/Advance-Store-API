@@ -1,4 +1,5 @@
 import traceback
+import time
 
 from flask_restful import Resource
 from flask import make_response, render_template
@@ -8,7 +9,7 @@ from app.schemas import ConfirmationSchema
 from app.resources.user import USER_NOT_FOUND
 from app.library.mailgun import MailGunException
 
-confirmation_Schema = ConfirmationSchema()
+confirmation_Schema = ConfirmationSchema(many=True)
 
 
 class Confirmation(Resource):
@@ -39,6 +40,23 @@ class Confirmation(Resource):
 
 
 class ConfirmationByUser(Resource):
+    @classmethod
+    def get(cls, user_id: int):
+        """
+        This endpoint is used for testing and viewing Confirmation models and should not be exposed to public.
+        """
+        user = UserModel.find_by_id(user_id)
+        if not user:
+            return {"message": USER_NOT_FOUND}, 404
+        return (
+            {
+                "current_time": int(time.time()),
+                # we filter the result by expiration time in descending order for convenience
+                "confirmation": confirmation_Schema.dump(user.all_confirmation()),
+            },
+            200,
+        )
+
     @classmethod
     def post(cls, user_id: int):
         user = UserModel.find_by_id(user_id)

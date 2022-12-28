@@ -1,5 +1,6 @@
 import os
 
+from typing import List
 from flask import request, url_for
 from requests import Response
 
@@ -41,6 +42,9 @@ class UserModel(db.Model):
 
     def most_recent_confirmation(self) -> "ConfirmationModel":
         return self.confirmation.order_by(db.desc(ConfirmationModel.expire_at)).first()
+
+    def all_confirmation(self) -> List["ConfirmationModel"]:
+        return self.confirmation.order_by(ConfirmationModel.expire_at)
 
     def send_confirmation_email(self) -> Response:
         # url_root = http://127.0.0.1:5000/
