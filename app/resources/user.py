@@ -47,6 +47,7 @@ class UserRegister(Resource):
             user.save_to_db()
             confirmation = ConfirmationModel(user.id)
             confirmation.save_to_db()
+            user.send_confirmation_email()
             return {"message": CREATED_SUCCESSFULLY}, 201
         except MailGunException as error:
             user.delete_from_db()
@@ -89,7 +90,7 @@ class UserLogin(Resource):
         # this is what the `authenticate()` function did in security.py
         if user and compare_digest(user.password, user.password):
             # identity= is what the identity() function did in security.py—now stored in the JWT
-            confirmation = user.most_recent_confirmation
+            confirmation = user.most_recent_confirmation()
             if confirmation and confirmation.confirmed:
                 access_token = create_access_token(identity=user.id, fresh=True)
                 refresh_token = create_refresh_token(user.id)

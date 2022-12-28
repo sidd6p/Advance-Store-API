@@ -46,12 +46,13 @@ class ConfirmationByUser(Resource):
             return {"message": USER_NOT_FOUND}, 404
 
         try:
-            confirmation = user.most_recent_confirmation
+            confirmation = user.most_recent_confirmation()
             if confirmation:
                 if confirmation.confirmed:
                     return {"message": "Already Confirmed"}, 400
                 confirmation.force_to_expire()
 
+            print("okok")
             new_confirmation = ConfirmationModel(user_id)
             new_confirmation.save_to_db()
             user.send_confirmation_email()

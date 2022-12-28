@@ -20,8 +20,8 @@ class ConfirmationModel(db.Model):
     def __init__(self, user_id: int, **kwargs):
         super().__init__(**kwargs)
         self.user_id = user_id
-        self.id = uuid4.hex()
-        self.expire_at = int(time()) + os.getenv("CONFIRMATION_EXPIRATION_DELTA")
+        self.id = uuid4().hex
+        self.expire_at = int(time()) + int(os.getenv("CONFIRMATION_EXPIRATION_DELTA"))
         self.confirmed = False
 
     @classmethod
@@ -30,7 +30,7 @@ class ConfirmationModel(db.Model):
 
     @property
     def is_expired(self) -> bool:
-        return time > self.expire_at
+        return int(time()) > self.expire_at
 
     def force_to_expire(self) -> None:
         if not self.is_expired:

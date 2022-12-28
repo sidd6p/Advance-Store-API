@@ -47,7 +47,7 @@ class UserModel(db.Model):
         # url_root[:-1] = http://127.0.0.1:5000
         # url_for("userconfirm", user_id=self.id)
         link = request.url_root[:-1] + url_for(
-            "confirmation", confrimation_id=self.most_recent_confirmation
+            "confirmation", confirmation_id=self.most_recent_confirmation().id
         )
         subject = "Registration Confirmation"
         emails = [self.email]

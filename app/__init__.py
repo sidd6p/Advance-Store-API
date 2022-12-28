@@ -61,6 +61,6 @@ def create_app():
     api.add_resource(TokenRefresh, "/refresh")
     api.add_resource(UserLogout, "/logout")
     api.add_resource(Confirmation, "/user_confirmation/<string:confirmation_id>")
-    api.add_resource(ConfirmationByUser, "/confirmation.user/<int:user_id>")
+    api.add_resource(ConfirmationByUser, "/confirmation/user/<int:user_id>")
 
     return app
