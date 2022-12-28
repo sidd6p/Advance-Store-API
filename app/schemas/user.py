@@ -9,6 +9,8 @@
 #     username = fields.Str(required=True)
 #     password = fields.Str(required=True, load_only=True)
 
+from marshmallow import pre_dump
+
 from app.ma import ma
 from app.models import UserModel
 
@@ -18,4 +20,9 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         model = UserModel
         load_instance = True
         load_only = ("password",)
-        dump_only = ("id", "activated")
+        dump_only = ("id", "confirmation")
+
+    @pre_dump
+    def _pre_dump(self, user: UserModel):
+        user.confirmation = [user.most_recent_confirmation]
+        return user
