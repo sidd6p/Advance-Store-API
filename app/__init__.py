@@ -3,6 +3,7 @@ import os
 from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_uploads import configure_uploads, patch_request_class
 from marshmallow import ValidationError
 from dotenv import load_dotenv
 
@@ -21,6 +22,8 @@ from app.resources.user import (
 from app.resources.item import Item, ItemList
 from app.resources.store import Store, StoreList
 from app.resources.confirmation import Confirmation, ConfirmationByUser
+from app.resources.image import ImageUpload
+from app.library.images_helper import IMAGE_SET
 
 
 def create_app(config_file=default_config):
@@ -29,12 +32,13 @@ def create_app(config_file=default_config):
 
     app.config.from_object(config_file)
     app.config.from_envvar("APPLICATION_SETTINGS")
-    print(app.config["DEBUG"])
+    patch_request_class(app, 10 * 1024 * 1024)  # 10 MB
+    configure_uploads(app, IMAGE_SET)
 
-    api = Api(app)
     jwt = JWTManager(app)
     db.init_app(app)
     ma.init_app(app)
+    api = Api(app)
 
     with app.app_context():
         db.create_all()
@@ -59,5 +63,6 @@ def create_app(config_file=default_config):
     api.add_resource(UserLogout, "/logout")
     api.add_resource(Confirmation, "/user_confirmation/<string:confirmation_id>")
     api.add_resource(ConfirmationByUser, "/confirmation/user/<int:user_id>")
+    api.add_resource(ImageUpload, "/upload/image")
 
     return app

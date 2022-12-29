@@ -5,7 +5,9 @@ from typing import Union
 from werkzeug.datastructures import FileStorage
 from flask_uploads import UploadSet, IMAGES
 
-IMAGE_SET = UploadSet("images", IMAGES)
+IMAGE_SET = UploadSet(
+    "images", IMAGES
+)  # "images" must be same as IMAGE_DESTINATION in 'default_config.py
 
 
 def save_image(image: FileStorage, folder: str = None, name: str = None) -> str:
@@ -28,7 +30,7 @@ def find_image_any_format(filename: str = None, folder: str = None) -> Union[str
     """
     for _format in IMAGES:
         image = f"{filename}.{_format}"
-        image_path = IMAGE_SET.path(filename=image, folder=folder)
+        image_path = get_path(filename=image, folder=folder)
         if os.path.isfile(image_path):
             return image_path
     return None
@@ -36,7 +38,7 @@ def find_image_any_format(filename: str = None, folder: str = None) -> Union[str
 
 def _retrieve_filename(file: Union[str, FileStorage]) -> str:
     """
-    return the filename including filename.extension
+    return the path/filename.extension of 'file'
     """
     if isinstance(file, FileStorage):
         return file.filename
@@ -45,7 +47,7 @@ def _retrieve_filename(file: Union[str, FileStorage]) -> str:
 
 def is_filename_safe(file: Union[str, FileStorage]) -> bool:
     """
-    check for the valid filename.extension
+    check for the valid path/filename.extension
     """
     filename = _retrieve_filename(file)
 
