@@ -22,7 +22,7 @@ from app.resources.user import (
 from app.resources.item import Item, ItemList
 from app.resources.store import Store, StoreList
 from app.resources.confirmation import Confirmation, ConfirmationByUser
-from app.resources.image import ImageUpload
+from app.resources.image import ImageUpload, Image
 from app.library.images_helper import IMAGE_SET
 
 
@@ -64,5 +64,6 @@ def create_app(config_file=default_config):
     api.add_resource(Confirmation, "/user_confirmation/<string:confirmation_id>")
     api.add_resource(ConfirmationByUser, "/confirmation/user/<int:user_id>")
     api.add_resource(ImageUpload, "/upload/image")
+    api.add_resource(Image, "/image/<string:filename>")
 
     return app

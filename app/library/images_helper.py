@@ -21,19 +21,19 @@ def get_path(filename: str = None, folder: str = None) -> str:
     """ "
     return the full path of 'filename' from the 'folder'
     """
-    return IMAGE_SET.path(filename, folder)
+    return IMAGE_SET.path(filename, folder)[4:]
 
 
-def find_image_any_format(filename: str = None, folder: str = None) -> Union[str, None]:
-    """
-    return the 'filename' from the 'folder' of any accpted extension from IMAGE
-    """
-    for _format in IMAGES:
-        image = f"{filename}.{_format}"
-        image_path = get_path(filename=image, folder=folder)
-        if os.path.isfile(image_path):
-            return image_path
-    return None
+# def find_image_any_format(filename: str = None, folder: str = None) -> Union[str, None]:
+#     """
+#     return the 'filename' from the 'folder' of any accpted extension from IMAGE
+#     """
+#     for _format in IMAGES:
+#         image = f"{filename}.{_format}"
+#         image_path = get_path(filename=image, folder=folder)
+#         if os.path.isfile(image_path):
+#             return image_path
+#     return None
 
 
 def _retrieve_filename(file: Union[str, FileStorage]) -> str:
