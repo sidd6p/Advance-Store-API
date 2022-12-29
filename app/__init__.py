@@ -4,6 +4,7 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_uploads import configure_uploads, patch_request_class
+from flask_migrate import Migrate
 from marshmallow import ValidationError
 from dotenv import load_dotenv
 
@@ -38,6 +39,7 @@ def create_app(config_file=default_config):
     db.init_app(app)
     ma.init_app(app)
     api = Api(app)
+    migrate = Migrate(app, db)
 
     with app.app_context():
         db.create_all()
