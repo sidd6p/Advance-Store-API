@@ -2,7 +2,6 @@ import traceback
 
 from flask_restful import Resource
 from flask import request
-from hmac import compare_digest
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
@@ -10,6 +9,7 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt,
 )
+from sqlalchemy.exc import SQLAlchemyError
 
 from app.schemas.user import UserSchema
 from app.models.user import UserModel
@@ -17,7 +17,7 @@ from app.blocklist import BLOCKLIST
 from app.library.mailgun import MailGunException
 from app.models.confirmation import ConfirmationModel
 from app.library.strings import get_text
-
+from app.library.password_hasing import encrypt_password, check_encrypted_password
 
 user_schema = UserSchema()
 
@@ -26,6 +26,7 @@ class UserRegister(Resource):
     @classmethod
     def post(cls):
         user = user_schema.load(request.get_json())
+        user.password = encrypt_password(user.password)
 
         if UserModel.find_by_username(user.username):
             return {"message": get_text("USER_ALREADY_EXISTS")}, 400
@@ -43,9 +44,12 @@ class UserRegister(Resource):
             user.delete_from_db()
             return {"message": str(error)}, 500
         except:
-            traceback.print_exc()
-            user.delete_from_db()
-            return {"message": get_text("FAILED_TO_CREATE")}, 500
+            try:
+                traceback.print_exc()
+                user.delete_from_db()
+                return {"message": get_text("FAILED_TO_CREATE")}, 500
+            except SQLAlchemyError as error:
+                return {"message": str(error)}, 500
 
 
 class User(Resource):
@@ -73,12 +77,12 @@ class User(Resource):
 class UserLogin(Resource):
     @classmethod
     def post(cls):
-        user = user_schema.load(request.get_json(), partial=("email",))
+        data = user_schema.load(request.get_json(), partial=("email",))
 
-        user = UserModel.find_by_username(user.username)
+        user = UserModel.find_by_username(data.username)
 
         # this is what the `authenticate()` function did in security.py
-        if user and compare_digest(user.password, user.password):
+        if user and check_encrypted_password(data.password, user.password):
             # identity= is what the identity() function did in security.py—now stored in the JWT
             confirmation = user.most_recent_confirmation()
             if confirmation and confirmation.confirmed:

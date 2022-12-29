@@ -7,7 +7,6 @@ from flask_uploads import configure_uploads, patch_request_class
 from marshmallow import ValidationError
 from dotenv import load_dotenv
 
-
 from app.db import db
 from app.ma import ma
 from app import default_config
