@@ -1,10 +1,12 @@
 import os
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-
 DEBUG = True
 SQLALCHEMY_DATABASE_URI = "sqlite:///data.db"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 PROPAGATE_EXCEPTIONS = True
-JWT_BLACKLIST_ENABLED = True
-JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
+SECRET_KEY = os.getenv("SECRET_KEY")
+JWT_BLOCKLIST_ENABLED = True
+JWT_BLOCKLIST_TOKEN_CHECKS = [
+    "access",
+    "refresh",
+]  # allow blocklisting for access and refresh tokens
