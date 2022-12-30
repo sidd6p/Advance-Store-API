@@ -19,6 +19,7 @@
     "NOT_ACTIVATED_ERROR" : "{} is not activated.",
     "USER_CONFIRMED" : "User activated",
     "FAILED_TO_CREATE" : "Unable to create the user, try again later",
+    "USER_PASSWORD_UPDATED": "Password Updated successfully",
 
     "INVALID_CREDENTIALS" : "Invalid credentials!",
     "BLANK_ERROR" : "'{}' cannot be blank.", 

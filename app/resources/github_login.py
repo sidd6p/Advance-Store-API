@@ -8,6 +8,8 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 from app.oa import github
 from app.models.user import UserModel
 from app.library.strings import get_text
+from app.library.password_hasing import encrypt_password
+from app.models.confirmation import ConfirmationModel
 
 
 class GithubLogin(Resource):
@@ -39,9 +41,14 @@ class GithubAuthorize(Resource):
                 user = UserModel(
                     username=username,
                     email=email,
-                    password=os.environ.get("RANDOM_PASSWORD", "28907SDF34"),
+                    password=encrypt_password(
+                        os.environ.get("RANDOM_PASSWORD", "28907SDF34")
+                    ),
                 )
                 user.save_to_db()
+                confimation = ConfirmationModel(user.id)
+                confimation.confirmed = True
+                confimation.save_to_db()
 
                 access_token = create_access_token(identity=user.id, fresh=True)
                 refresh_token = create_refresh_token(user.id)
