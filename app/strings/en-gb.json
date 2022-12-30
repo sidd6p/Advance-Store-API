@@ -31,5 +31,5 @@
     "DELETED": "File deleted",
 
     "ORDER_PLACED": "Order placed successfully",
-    "ORDER_FAILEd": "Order failed"
+    "ORDER_FAILED": "Order failed"
 }
