@@ -40,7 +40,13 @@ class Order(Resource):
         try:
             # order.charge_with_stripe(data["token"])
             order.set_status("completed")
-            return order_schema.dump(order)
+            return {
+                "order_details": order_schema.dump(order),
+                "items": [
+                    (item.item.name, item.item.price, item.quantity) for item in items
+                ],
+            }, 200
+
         except:
             order.set_status("failed")
             return {"message": get_text("ORDER_FAILED")}, 500
