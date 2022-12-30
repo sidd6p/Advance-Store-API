@@ -3,10 +3,11 @@ import os
 from flask_restful import Resource
 from flask import g, request
 from sqlalchemy.exc import SQLAlchemyError
+from flask_jwt_extended import create_access_token, create_refresh_token
 
 from app.oa import github
 from app.models.user import UserModel
-from flask_jwt_extended import create_access_token, create_refresh_token
+from app.library.strings import get_text
 
 
 class GithubLogin(Resource):
@@ -51,3 +52,5 @@ class GithubAuthorize(Resource):
                 }, 200
             except SQLAlchemyError as error:
                 return {"message": str(error)}, 500
+        else:
+            return {"message", get_text("USER_ALREADY_EXISTS")}, 400
