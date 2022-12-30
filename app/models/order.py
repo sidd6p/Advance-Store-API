@@ -18,8 +18,9 @@ class ItemsInOrders(db.Model):
     __tablename__ = "items_in_order"
 
     id = db.Column(db.Integer, primary_key=True)
-    item_id = db.Column(db.Integer, db.ForeignKey("item.id"))
-    order_id = db.Column(db.Integer, db.ForeignKey("item.id"))
+    item_id = db.Column(db.Integer, db.ForeignKey("items.id"))
+    order_id = db.Column(db.Integer, db.ForeignKey("orders.id"))
+    quantity = db.Column(db.Integer)
 
     item = db.relationship("ItemModel")
     order = db.relationship("OrderModel", back_populates="items")

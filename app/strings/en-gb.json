@@ -28,5 +28,7 @@
     "ILLEGA_IMAGE_EXTENSION": "{} is illegal image exiension",
     "NOT_A_FILE": "This is not a file name",
     "FILE_NOT_FOUND": "{} does not exists",
-    "DELETED": "File deleted"
+    "DELETED": "File deleted",
+
+    "ORDER_PLACED": "Order placed successfully"
 }
