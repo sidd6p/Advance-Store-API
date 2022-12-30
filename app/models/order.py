@@ -1,6 +1,8 @@
 import os
+import stripe
 
 from typing import List
+
 
 from app.db import db
 from app.models.item import ItemModel
@@ -31,6 +33,8 @@ class OrderModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String(20), nullable=False)
+    amount = db.Column(db.Float)
+    description = db.Column(db.String(80))
 
     items = db.relationship("ItemsInOrders", back_populates="order")
 
@@ -41,6 +45,15 @@ class OrderModel(db.Model):
     @classmethod
     def find_all(cls) -> List["OrderModel"]:
         return cls.query.all()
+
+    def charge_with_stripe(self, token: str) -> stripe.Charge:
+        stripe.api_key = os.getenv("STRIPE_API_KEY")
+        return stripe.Charge.create(
+            amount=self.amount,
+            currency="usd",
+            description=self.description,
+            source=token,
+        )
 
     def set_status(self, new_status: str) -> None:
         self.status = new_status

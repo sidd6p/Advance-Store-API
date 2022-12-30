@@ -24,4 +24,10 @@ class Order(Resource):
         order = OrderModel(items=items, status="pending")
         order.save_to_db()
 
-        return {"message": get_text("ORDER_PLACED")}, 200
+        try:
+            order.charge_with_stripe(data["token"])
+            order.set_status("completed")
+            return {"message": get_text("ORDER_PLACED")}, 200
+        except:
+            order.set_status("failed")
+            return {"message": get_text("ORDER_FAILEd")}, 500

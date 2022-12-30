@@ -30,5 +30,6 @@
     "FILE_NOT_FOUND": "{} does not exists",
     "DELETED": "File deleted",
 
-    "ORDER_PLACED": "Order placed successfully"
+    "ORDER_PLACED": "Order placed successfully",
+    "ORDER_FAILEd": "Order failed"
 }
