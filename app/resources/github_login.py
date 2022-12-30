@@ -1,7 +1,8 @@
 import os
 
 from flask_restful import Resource
-from flask import g
+from flask import g, request
+from sqlalchemy.exc import SQLAlchemyError
 
 from app.oa import github
 from app.models.user import UserModel
@@ -20,6 +21,11 @@ class GithubAuthorize(Resource):
     @classmethod
     def get(cls):
         resp = github.authorized_response()
+        if resp is None or resp.get("access_token") is None:
+            return {
+                "message": request.args["error"],
+            }, 500
+
         g.access_token = resp["access_token"]
         github_user = github.get("user")
 
@@ -28,14 +34,20 @@ class GithubAuthorize(Resource):
         user = UserModel.find_by_username(username)
 
         if not user:
-            user = UserModel(
-                username=username,
-                email=email,
-                password=os.environ.get("RANDOM_PASSWORD", "28907SDF34"),
-            )
-            user.save_to_db()
+            try:
+                user = UserModel(
+                    username=username,
+                    email=email,
+                    password=os.environ.get("RANDOM_PASSWORD", "28907SDF34"),
+                )
+                user.save_to_db()
 
-            access_token = create_access_token(identity=user.id, fresh=True)
-            refresh_token = create_refresh_token(user.id)
+                access_token = create_access_token(identity=user.id, fresh=True)
+                refresh_token = create_refresh_token(user.id)
 
-            return {"access_token": access_token, "refresh_token": refresh_token}, 200
+                return {
+                    "access_token": access_token,
+                    "refresh_token": refresh_token,
+                }, 200
+            except SQLAlchemyError as error:
+                return {"message": str(error)}, 500
