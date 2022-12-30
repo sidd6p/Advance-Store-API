@@ -32,7 +32,7 @@ class Order(Resource):
         order = OrderModel(
             items=items,
             status="pending",
-            amount=amount,
+            amount=amount * 100,
             description=f"There are total {total_items} items with amount {amount} in this order",
         )
         order.save_to_db()
@@ -40,13 +40,15 @@ class Order(Resource):
         try:
             # order.charge_with_stripe(data["token"])
             order.set_status("completed")
-            return {
-                "order_details": order_schema.dump(order),
-                "items": [
-                    (item.item.name, item.item.price, item.quantity) for item in items
-                ],
-            }, 200
-
+            return order_schema.dump(order), 200
         except:
             order.set_status("failed")
             return {"message": get_text("ORDER_FAILED")}, 500
+
+
+# return {
+#     "order_details": order_schema.dump(order),
+#     "items": [
+#         (item.item.name, item.item.price, item.quantity) for item in items
+#     ],
+# }, 200
