@@ -8,8 +8,11 @@ from flask_migrate import Migrate
 from marshmallow import ValidationError
 from dotenv import load_dotenv
 
+load_dotenv()
+
 from app.db import db
 from app.ma import ma
+from app.oa import oauth
 from app import default_config
 from app.blocklist import BLOCKLIST
 from app.resources.user import (
@@ -28,7 +31,6 @@ from app.library.images_helper import IMAGE_SET
 
 def create_app(config_file=default_config):
     app = Flask(__name__)
-    load_dotenv()
 
     app.config.from_object(config_file)
     app.config.from_envvar("APPLICATION_SETTINGS")
@@ -38,6 +40,7 @@ def create_app(config_file=default_config):
     jwt = JWTManager(app)
     db.init_app(app)
     ma.init_app(app)
+    oauth.init_app(app)
     api = Api(app)
     migrate = Migrate(app, db)
 
