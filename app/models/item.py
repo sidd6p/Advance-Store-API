@@ -18,6 +18,10 @@ class ItemModel(db.Model):
         return cls.query.filter_by(name=name).first()
 
     @classmethod
+    def find_by_id(cls, id: str) -> "ItemModel":
+        return cls.query.filter_by(id=id).first()
+
+    @classmethod
     def find_all(cls) -> List["ItemModel"]:
         return cls.query.all()
 
