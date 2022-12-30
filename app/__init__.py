@@ -26,7 +26,7 @@ from app.resources.item import Item, ItemList
 from app.resources.store import Store, StoreList
 from app.resources.confirmation import Confirmation, ConfirmationByUser
 from app.resources.image import ImageUpload, Image
-from app.resources.github_login import GithubLogin
+from app.resources.github_login import GithubLogin, GithubAuthorize
 from app.library.images_helper import IMAGE_SET
 
 
@@ -71,5 +71,6 @@ def create_app(config_file=default_config):
     api.add_resource(ImageUpload, "/upload/image")
     api.add_resource(Image, "/image/<string:filename>")
     api.add_resource(GithubLogin, "/login/github")
+    api.add_resource(GithubAuthorize, "/login/github/authorized")
 
     return app
