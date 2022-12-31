@@ -2,6 +2,7 @@ from collections import Counter
 
 from flask_restful import Resource
 from flask import request
+from stripe import error
 
 from app.library.strings import get_text
 from app.models.item import ItemModel
@@ -42,17 +43,10 @@ class Order(Resource):
         order.save_to_db()
 
         try:
-            # order.charge_with_stripe()
+            order.charge_with_stripe()
             order.set_status("completed")
             return order_schema.dump(order), 200
-        except:
+        except error.StripeError as err:
             order.set_status("failed")
+            return {"messgae": str(err)}, 500
             return {"message": get_text("ORDER_FAILED")}, 500
-
-
-# return {
-#     "order_details": order_schema.dump(order),
-#     "items": [
-#         (item.item.name, item.item.price, item.quantity) for item in items
-#     ],
-# }, 200

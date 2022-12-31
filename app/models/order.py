@@ -58,7 +58,7 @@ class OrderModel(db.Model):
         #             },
         #         )
         intent = stripe.PaymentIntent.create(
-            amount=self.amount,
+            amount=int(self.amount + 0.500001),
             currency="usd",
             payment_method_types=["card"],
         )
