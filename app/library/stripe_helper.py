@@ -10,5 +10,4 @@ def create_stripe_product(name: str) -> str:
 
 
 def delete_stripe_product(name: str) -> None:
-    res = stripe.Product.delete(name=name)
-    print(res)
+    stripe.Product.delete(name=name)

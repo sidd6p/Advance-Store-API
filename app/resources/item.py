@@ -5,7 +5,8 @@ from flask_jwt_extended import jwt_required
 from app.models.item import ItemModel
 from app.schemas.item import ItemSchema
 from app.library.strings import get_text
-from app.library.stripe_helper import create_stripe_product
+
+# from app.library.stripe_helper import create_stripe_product
 
 item_schema = ItemSchema()
 item_list_schema = ItemSchema(many=True)
@@ -26,9 +27,9 @@ class Item(Resource):
             return {"message": get_text("NAME_ALREADY_EXISTS").format(name)}, 400
         item_json = request.get_json()
         item_json["name"] = name
-        item_json["stripe_id"] = create_stripe_product(
-            str(item_json["store_id"]) + name
-        )
+        # item_json["stripe_id"] = create_stripe_product(
+        #     str(item_json["store_id"]) + name
+        # )
         item = item_schema.load(item_json)
         try:
             item.save_to_db()

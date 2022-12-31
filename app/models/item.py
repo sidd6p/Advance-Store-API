@@ -1,7 +1,8 @@
 from typing import List
 
 from app.db import db
-from app.library.stripe_helper import delete_stripe_product
+
+# from app.library.stripe_helper import delete_stripe_product
 
 
 class ItemModel(db.Model):
@@ -10,7 +11,7 @@ class ItemModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False, unique=True)
     price = db.Column(db.Float(precision=2), nullable=False)
-    stripe_id = db.Column(db.String())
+    # stripe_id = db.Column(db.String())
 
     store_id = db.Column(db.Integer, db.ForeignKey("stores.id"))
     store = db.relationship("StoreModel", back_populates="items")
@@ -32,6 +33,6 @@ class ItemModel(db.Model):
         db.session.commit()
 
     def delete_from_db(self) -> None:
-        delete_stripe_product(self.stripe_id)
+        # delete_stripe_product(self.stripe_id)
         db.session.delete(self)
         db.session.commit()
