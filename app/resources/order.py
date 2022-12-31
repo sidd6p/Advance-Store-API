@@ -38,7 +38,7 @@ class Order(Resource):
         order.save_to_db()
 
         try:
-            # order.charge_with_stripe(data["token"])
+            # order.charge_with_stripe()
             order.set_status("completed")
             return order_schema.dump(order), 200
         except:

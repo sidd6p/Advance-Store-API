@@ -8,6 +8,8 @@ from app.db import db
 from app.models.item import ItemModel
 
 
+stripe.api_key = os.getenv("STRIPE_API_KEY")
+
 # items_to_orders = db.Table(
 #     "items_to_orders",
 #     db.Column(db.Integer, primary_key=True),
@@ -46,14 +48,21 @@ class OrderModel(db.Model):
     def find_all(cls) -> List["OrderModel"]:
         return cls.query.all()
 
-    def charge_with_stripe(self, token: str) -> stripe.Charge:
-        stripe.api_key = os.getenv("STRIPE_API_KEY")
-        return stripe.Charge.create(
+    def charge_with_stripe(self) -> None:
+        # token = stripe.Token.create(
+        #             card={
+        #                 "number": "4242424242424242",
+        #                 "exp_month": 11,
+        #                 "exp_year": 2023,
+        #                 "cvc": "314",
+        #             },
+        #         )
+        intent = stripe.PaymentIntent.create(
             amount=self.amount,
             currency="usd",
-            description=self.description,
-            source=token,
+            payment_method_types=["card"],
         )
+        return intent.client_secret
 
     def set_status(self, new_status: str) -> None:
         self.status = new_status
