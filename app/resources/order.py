@@ -1,7 +1,7 @@
 from collections import Counter
 
 from flask_restful import Resource
-from flask import request
+from flask import Flask, redirect, request
 from stripe import error
 
 from app.library.strings import get_text

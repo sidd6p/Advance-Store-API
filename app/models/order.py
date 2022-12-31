@@ -49,16 +49,16 @@ class OrderModel(db.Model):
         return cls.query.all()
 
     def charge_with_stripe(self) -> None:
-        # token = stripe.Token.create(
-        #             card={
-        #                 "number": "4242424242424242",
-        #                 "exp_month": 11,
-        #                 "exp_year": 2023,
-        #                 "cvc": "314",
-        #             },
-        #         )
+        token = stripe.Token.create(
+            card={
+                "number": "4242424242424242",
+                "exp_month": 11,
+                "exp_year": 2023,
+                "cvc": "314",
+            },
+        )
         intent = stripe.PaymentIntent.create(
-            amount=int(self.amount + 0.500001),
+            amount=int(self.amount + 0.49999),
             currency="usd",
             payment_method_types=["card"],
         )
